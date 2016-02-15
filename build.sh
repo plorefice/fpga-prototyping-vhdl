@@ -11,6 +11,15 @@ where
 	-h,--help	show this help text
 	-c,--clean	clean the object files"
 
+function cleanobj() {
+	ghdl --clean --workdir=work
+	rm -f `find . -name "*.o"`
+}
+
+function cleanvcd() {
+	rm -f `find . -name "*.vcd"`
+}
+
 while [[ "$#" > 0 ]]; do
 key="$1"
 
@@ -20,8 +29,12 @@ case $key in
 	exit
 	;;
 	-c|--clean)
-	ghdl --clean --workdir=work
-	rm -f `find . -name "*.o"`
+	cleanobj
+	exit
+	;;
+	-C|--cleanall)
+	cleanobj
+	cleanvcd
 	exit
 	;;
 	*)
