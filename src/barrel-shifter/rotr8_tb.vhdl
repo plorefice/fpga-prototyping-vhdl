@@ -7,17 +7,17 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-entity rot8_tb is
-end entity ; -- rot8_tb
+entity rotr8_tb is
+end entity ; -- rotr8_tb
 
-architecture tb_arch of rot8_tb is
+architecture tb_arch of rotr8_tb is
 	signal tb_a, tb_sel_y, tb_ms_y : std_logic_vector(7 downto 0);
 	signal tb_amt : std_logic_vector(2 downto 0);
 begin
-	uut_sel: entity work.rot8(sel_arch)
+	uut_sel: entity work.rotr8(sel_arch)
 		port map(a => tb_a, amt => tb_amt, y => tb_sel_y);
 
-	uut_ms: entity work.rot8(ms_arch)
+	uut_ms: entity work.rotr8(ms_arch)
 		port map(a => tb_a, amt => tb_amt, y => tb_ms_y);
 
 	tb_proc : process

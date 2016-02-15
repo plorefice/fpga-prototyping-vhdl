@@ -5,16 +5,16 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
-entity rot8 is
+entity rotr8 is
 	port (
 		a	: in std_logic_vector(7 downto 0);
 		amt	: in std_logic_vector(2 downto 0);
 		y	: out std_logic_vector(7 downto 0)
 	) ;
-end entity ; -- rot8
+end entity ; -- rotr8
 
 -- exhaustive select architecture
-architecture sel_arch of rot8 is
+architecture sel_arch of rotr8 is
 begin
 	with amt select
 		y <= a                             when "000",
@@ -29,7 +29,7 @@ begin
 end architecture ; -- sel_arch
 
 -- multi-stage architecture
-architecture ms_arch of rot8 is
+architecture ms_arch of rotr8 is
 	signal y0, y1 : std_logic_vector(7 downto 0);
 begin
 	-- stage 0, shift 0 or 1 bit
