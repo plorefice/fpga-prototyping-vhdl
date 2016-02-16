@@ -44,5 +44,7 @@ begin
 			"1000010" when "1101",
 			"0110000" when "1110",
 			"0111000" when others;
-		sseg(7) <= not dp;
+
+	sseg(7) <= not dp;
+
 end architecture ; -- arch
