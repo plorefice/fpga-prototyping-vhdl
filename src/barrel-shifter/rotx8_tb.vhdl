@@ -11,12 +11,15 @@ entity rotx8_tb is
 end entity ; -- rotx8_tb
 
 architecture tb_arch of rotx8_tb is
-	signal tb_a, tb_y : std_logic_vector(7 downto 0);
+	signal tb_a, tb_lr_y, tb_rev_y : std_logic_vector(7 downto 0);
 	signal tb_amt : std_logic_vector(2 downto 0);
 	signal tb_lr : std_logic;
 begin
-	uut: entity work.rotx8
-		port map(a => tb_a, amt => tb_amt, lr => tb_lr, y => tb_y);
+	uut_lr: entity work.rotx8(struc_arch)
+		port map(a => tb_a, amt => tb_amt, lr => tb_lr, y => tb_lr_y);
+
+	uut_rev: entity work.rotx8(rev_arch)
+		port map(a => tb_a, amt => tb_amt, lr => tb_lr, y => tb_rev_y);
 
 	tb_proc : process
 		variable i : integer := 0;
