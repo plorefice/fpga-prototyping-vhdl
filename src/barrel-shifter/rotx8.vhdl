@@ -4,6 +4,7 @@
 
 library ieee;
 use ieee.std_logic_1164.all;
+use work.common_p.all;
 
 entity rotx8 is
 	port (
@@ -28,3 +29,22 @@ begin
 		     yr when others; -- '1'
 
 end architecture ; -- struc_arch
+
+-- reverse-input architecture
+architecture rev_arch of rotx8 is
+	signal a_r, y_r : std_logic_vector(7 downto 0);
+begin
+	rotr: entity work.rotr8
+		port map(a => a_r, amt => amt, y => y_r);
+
+	-- input-reverse circuitry
+	with lr select
+		a_r <= reverse(a) when '0',
+		       a          when others; -- '1'
+
+	-- output-reverse circuitry
+	with lr select
+		y <= reverse(y_r) when '0',
+		     y_r          when others; -- '1'
+
+end architecture ; -- rev_arch
