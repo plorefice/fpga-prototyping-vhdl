@@ -2,7 +2,7 @@
 -- Description:
 --	Returns the binary code of the most-significant asserted bit.
 --	The valid output is asserted if at least one bit in the request is.
---	This design is built for three 4-to-2 priority encoder, using the
+--	This design is built from three 4-to-2 priority encoder, using the
 --	VALID bits to both drive a multiplexer to select the lower two bits and
 --	derive the higher two bits.
 
