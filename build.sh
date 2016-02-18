@@ -5,6 +5,8 @@ set -eu
 DIR=$(cd -P -- "$(dirname -- "$0")" && pwd -P)
 ENTS=()
 
+[ -d "work" ] || mkdir work
+
 USAGE="$(basename "$0") [-h] [-c] [entities...] -- build and run the specified entities
 
 where
