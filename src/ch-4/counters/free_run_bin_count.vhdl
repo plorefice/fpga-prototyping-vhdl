@@ -12,7 +12,7 @@ entity free_run_bin_count is
 	) ;
 	port (
 		clk, rst: in std_logic;
-		ovfl	: out std_logic;
+		max	: out std_logic;
 		q	: out std_logic_vector(N-1 downto 0)
 	) ;
 end entity ; -- free_run_bin_count
@@ -35,6 +35,6 @@ begin
 	
 	-- output logic
 	q <= std_logic_vector(r_reg);
-	ovfl <= '1' when r_reg = (2**N-1) else '0';
+	max <= '1' when r_reg = (2**N-1) else '0';
 
 end architecture ; -- arch
