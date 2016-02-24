@@ -1,4 +1,4 @@
--- Design: Testebench for the universal binary counter
+-- Design: Testbench for the universal binary counter
 -- Description:
 --	Verifies the correctness for the universal binary counter
 --	by cross-checking the design outputs with validation cases.

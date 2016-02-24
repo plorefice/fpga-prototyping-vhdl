@@ -1,6 +1,6 @@
 -- Design: Mod-m counter
 -- Description:
---	Counts to 0 to m-1 and wraps around.
+--	Counts to 0 to m-1 and wraps around when en is asserted.
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -13,6 +13,7 @@ entity mod_count is
 	) ;
 	port (
 		clk, rst: in std_logic;
+		en	: in std_logic;
 		max	: out std_logic;
 		q	: out std_logic_vector(N-1 downto 0)
 	) ;
@@ -28,12 +29,13 @@ begin
 			r_reg <= (others => '0');
 		elsif (clk'event and clk = '1') then
 			r_reg <= r_next;
-		end if ;	
+		end if ;
 	end process ; -- reg_proc
 
 	-- next-state logic
-	r_next <= (others => '0') when r_reg = (M-1) else
-	          r_reg + 1;
+	r_next <= r_reg           when en = '0' else
+		  (others => '0') when r_reg = (M-1) else
+		  r_reg + 1;
 
 	-- output logic
 	max <= '1' when r_reg = (M-1) else '0';
