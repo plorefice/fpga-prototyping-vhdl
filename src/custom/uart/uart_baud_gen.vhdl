@@ -4,7 +4,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-entity baud_rate_gen is
+entity uart_baud_gen is
 	generic (
 		DIV	: integer := 5208	-- clock divider for 9600 bps
 	) ;
@@ -14,14 +14,14 @@ entity baud_rate_gen is
 		tx_tick	: out std_logic;	-- transmitter tick
 		rx_tick : out std_logic		-- receiver tick
 	) ;
-end entity ; -- baud_rate_gen
+end entity ; -- uart_baud_gen
 
-architecture arch of baud_rate_gen is
+architecture arch of uart_baud_gen is
 	constant RX_DIV : unsigned := to_unsigned(DIV / 16, 16);
 
 	type state_type is (idle, running);
 
-	signal state_reg, state_next : state_type;
+	signal state_reg, state_next : state_type := idle;
 	signal rx_cnt_reg, rx_cnt_next : unsigned(15 downto 0) := (others => '0');
 	signal n_reg, n_next : unsigned(3 downto 0) := (others => '0');
 	signal rx_en : std_logic;
@@ -60,8 +60,8 @@ begin
 					state_next <= idle;
 				else
 					rx_cnt_next <= rx_cnt_reg + 1;
-
-					if (rx_cnt_reg = (RX_DIV - 1)) then
+					if (rx_en = '1') then
+						rx_cnt_next <= (others => '0');
 						n_next <= n_reg + 1;
 					end if ;
 				end if ;

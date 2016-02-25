@@ -3,16 +3,16 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
-entity baud_rate_gen_tb is
-end entity ; -- baud_rate_gen_tb
+entity uart_baud_gen_tb is
+end entity ; -- uart_baud_gen_tb
 
-architecture arch of baud_rate_gen_tb is
+architecture arch of uart_baud_gen_tb is
 	constant T : time := 20 ns; -- clock period
 
 	signal clk, rst, en, tx_tick, rx_tick : std_logic;
 begin
 	-- unit under test
-	uut : entity work.baud_rate_gen
+	uut : entity work.uart_baud_gen
 		port map (clk => clk, rst => rst, en => en,
 			  tx_tick => tx_tick, rx_tick => rx_tick);
 
