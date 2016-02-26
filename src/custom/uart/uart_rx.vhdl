@@ -18,7 +18,7 @@ entity uart_rx is
 end entity ; -- uart_rx
 
 architecture arch of uart_rx is
-	type state_type is (idle, start, data, stop);
+	type state_type is (idle, start, char, stop);
 
 	signal state_reg, state_next : state_type := idle;
 	signal data_reg, data_next : std_logic_vector(DBIT-1 downto 0) := (others => '0');
@@ -65,7 +65,7 @@ begin
 			when start =>
 				if (rx_clk = '1') then
 					if (s_tick_reg = "0111") then
-						state_next <= data;
+						state_next <= char;
 						n_next <= (others => '0');
 						s_tick_next <= (others => '0');
 					else
@@ -73,7 +73,7 @@ begin
 					end if ;
 				end if ;
 
-			when data =>
+			when char =>
 				s_tick_next <= s_tick_reg + 1;
 
 				if (rx_clk = '1' and s_tick_reg = "1111") then

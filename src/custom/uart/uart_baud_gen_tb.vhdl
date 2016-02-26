@@ -14,7 +14,7 @@ begin
 	-- unit under test
 	uut : entity work.uart_baud_gen
 		port map (clk => clk, rst => rst, en => en,
-			  tx_tick => tx_tick, rx_tick => rx_tick);
+			  tx_clk => tx_tick, rx_clk => rx_tick);
 
 	-- clock process
 	process

@@ -16,12 +16,12 @@ begin
 	-- unit under test
 	uut : entity work.uart_tx
 		port map (clk => clk, rst => rst, tx_start => tx_start,
-			  tx_tick => tx_tick, din => din, tx_done => tx_done,
-			  dout => dout);
+			  tx_clk => tx_tick, data => din, tx_done => tx_done,
+			  txd => dout);
 
 	brg : entity work.uart_baud_gen
-		port map (clk => clk, rst => rst, en => tx_start,
-			  tx_tick => tx_tick, rx_tick => rx_tick);
+		port map (clk => clk, rst => rst, en => '1',
+			  tx_clk => tx_tick, rx_clk => rx_tick);
 
 	-- clock process
 	process
@@ -40,24 +40,24 @@ begin
 	begin
 		-- initial state
 		tx_start <= '0';
+		wait for 1 ms;
 
-		wait for 10 ms;
 		wait until falling_edge(clk);
-
 		din <= "01010101";
 		tx_start <= '1';
+		wait until falling_edge(clk);
+		tx_start <= '0';
 
 		wait until tx_done = '1';
-		tx_start <= '0';
 		wait for 1 ms;
 
 		wait until falling_edge(clk);
 		din <= "10011001";
 		tx_start <= '1';
-
-		wait until tx_done = '1';
+		wait until falling_edge(clk);
 		tx_start <= '0';
 
+		wait until tx_done = '1';
 		wait for 1 ms;
 
 		assert false

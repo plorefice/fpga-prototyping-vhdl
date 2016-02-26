@@ -19,7 +19,7 @@ entity uart_tx is
 end entity ; -- uart_tx
 
 architecture arch of uart_tx is
-	type state_type is (idle, start, data, stop);
+	type state_type is (idle, start, char, stop);
 
 	signal state_reg, state_next : state_type := idle;
 	signal data_reg, data_next : std_logic_vector(7 downto 0) := (others => '0');
@@ -67,11 +67,11 @@ begin
 				txd_next <= '0';
 
 				if (tx_clk = '1') then
-					state_next <= data;
+					state_next <= char;
 					n_next <= (others => '0');
 				end if ;
 
-			when data =>
+			when char =>
 				txd_next <= data_reg(0);
 
 				if (tx_clk = '1') then

@@ -6,19 +6,18 @@ use ieee.numeric_std.all;
 
 entity uart_baud_gen is
 	generic (
-		DIV	: integer := 5208	-- clock divider for 9600 bps
+		DVSR	: integer := 163	-- clock divider for 19200 bps
+						-- (50MHz / (16 * baud))
 	) ;
 	port (
 		clk, rst: in std_logic;		-- clock and reset
 		en	: in std_logic;		-- enable generator
-		tx_tick	: out std_logic;	-- transmitter tick
-		rx_tick : out std_logic		-- receiver tick
+		tx_clk	: out std_logic;	-- transmitter tick
+		rx_clk	: out std_logic		-- receiver tick
 	) ;
 end entity ; -- uart_baud_gen
 
 architecture arch of uart_baud_gen is
-	constant RX_DIV : unsigned := to_unsigned(DIV / 16, 16);
-
 	type state_type is (idle, running);
 
 	signal state_reg, state_next : state_type := idle;
@@ -69,10 +68,10 @@ begin
 	end process ;
 
 	-- output logic
-	rx_en <= '1' when rx_cnt_reg = (RX_DIV - 1) else '0';
+	rx_en <= '1' when rx_cnt_reg = to_unsigned(DVSR - 1, 16) else '0';
 
-	tx_tick <= '1' when (n_reg = "1111" and rx_en = '1') else '0';
-	rx_tick <= rx_en;
+	tx_clk <= '1' when (n_reg = "1111" and rx_en = '1') else '0';
+	rx_clk <= rx_en;
 
 end architecture ; -- arch
 
