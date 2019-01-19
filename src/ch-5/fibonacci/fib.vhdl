@@ -1,0 +1,89 @@
+-- Design: Fibonacci sequence
+-- Description:
+--	Computes the i-th value of the Fibonacci sequence. The computation
+--	starts when start is asserted, and upon completion, done is asserted
+--	for a single clock cycle.
+
+-- library ieee;
+-- use ieee.std_logic_1164.all;
+-- use ieee.numeric_std.all;
+-- 
+-- entity fib is
+-- 	port (
+-- 		clk, rst	: in std_logic;
+-- 		start		: in std_logic;
+-- 		i		: in std_logic_vector(3 downto 0);
+-- 		ready, done	: out std_logic;
+-- 		f		: out std_logic_vector(19 downto 0)
+-- 	) ;
+-- end entity ; -- fib
+-- 
+-- architecture rtl of fib is
+-- 	type state_type is (s_idle, s_op, s_done);
+-- 
+-- 	signal state_reg, state_next : state_type;
+-- 	signal f0_reg, f0_next : unsigned(19 downto 0);
+-- 	signal f1_reg, f1_next : unsigned(19 downto 0);
+-- 	signal n_reg, n_next : unsigned(3 downto 0);
+-- 
+-- 	-- control signals
+-- 	signal start_ctl : std_logic;
+-- begin
+-- 	-- FSMD state & data register
+-- 	state_proc : process (clk, rst)
+-- 	begin
+-- 		if (rst = '1') then
+-- 			state_reg <= s_idle;
+-- 			f0_reg <= (others => '0');
+-- 			f1_reg <= (others => '0');
+-- 			n_reg <= (others => '0');
+-- 		elsif (clk'event and clk = '1') then
+-- 			state_reg <= state_next;
+-- 			f0_reg <= f0_next;
+-- 			f1_reg <= f1_next;
+-- 			n_reg <= n_next;
+-- 		end if ;
+-- 	end process ; -- state_proc
+-- 
+-- 	-- FSMD data path next-state logic
+-- 	process (start_ctl, f0_reg, f1_reg, n_reg, i)
+-- 	begin
+-- 		if (start_ctl = '0') then
+-- 			f1_next <= f0_reg + f1_reg;
+-- 			f0_next <= f1_reg;
+-- 			n_next <= n_reg - 1;
+-- 		else
+-- 			f1_next <= (0 => '1', others => '0');
+-- 			f0_next <= (others => '0');
+-- 			n_next <= i;
+-- 		end if ;
+-- 	end process ;
+-- 
+-- 	-- FSMD control path next-state logic
+-- 	process (state_reg, n_reg, start)
+-- 	begin
+-- 		state_next <= state_reg;
+-- 		ready <= '0';
+-- 		done <= '0';
+-- 		start_ctl <= '0';
+-- 
+-- 		case state_reg is
+-- 			when s_idle =>
+-- 				ready <= '1';
+-- 				if (start = '1') then
+-- 					start_ctl <= '1';
+-- 					state_next <= s_op;
+-- 				end if ;
+-- 
+-- 			when s_op =>
+-- 				if 
+-- 
+-- 
+-- 
+-- 
+-- 	end process ;
+-- 
+-- 	-- output logic
+-- 	f <= std_logic_vector(f1_reg);
+-- 
+-- end architecture ; -- rtl
